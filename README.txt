@@ -1,12 +1,12 @@
 ================================== LEAP16 ===================================
 
-The LEAP16 platform is a 16-bit platform. It has 16-bit instructions, 16-bit
+LEAP16 is a 16-bit computer architecture. It has 16-bit instructions, 16-bit
 registers, and 16-bit memory addressed using 16-bit addresses.
 
 Memory is 64 Ki16b. mFFFF and below is used as a stack. Registers are from r0
 to rF. r0 is zero, rE is the stack pointer, rF is the instruction pointer.
 
-The LEAP16 platform has instructions as follows:
+The LEAP16 instruction set is as follows:
 
 LOAD ra4 or4 rd4 (0) // Load from memory ra+or, store into register rd
 STOR ra4 or4 rs4 (E) // Store into memory ra+or, load from register rs
@@ -27,7 +27,7 @@ The two unused opcodes are 1 and 9, and these non-instructions are skipped.
 
 =============================================================================
 
-Included in this repo is a reference implementation of the LEAP16 in Go.
+Included in this repo is a reference implementation of LEAP16 in Go.
 
 =============================================================================
 
