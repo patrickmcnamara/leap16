@@ -1,4 +1,4 @@
-// Package leap16 implements the LEAP16 platform.
+// Package leap16 implements the LEAP16 computer architecture.
 //
 // LEAP16 is a 16-bit computer architecture. It has 16-bit instructions, 16-bit
 // registers, and 16-bit memory addressed using 16-bit addresses.
@@ -26,7 +26,7 @@
 // The two unused opcodes are 1 and 9, and these non-instructions are skipped.
 package leap16
 
-// LEAP16 is an instance of the LEAP16 platform. It has 64 Ki16b of memory, 16
+// LEAP16 is an instance of a LEAP16 computer. It has 64 Ki16b of memory, 16
 // registers, and a cycle counter. It can run programs loaded into memory.
 type LEAP16 struct {
 	// Memory
@@ -37,26 +37,29 @@ type LEAP16 struct {
 	C uint16
 }
 
-// NewLEAP16 returns a new instance of the LEAP16 platform.
+// NewLEAP16 returns a new instance of a LEAP16 computer.
 func NewLEAP16() (l16 *LEAP16) {
 	return &LEAP16{}
 }
 
-// LoadProgram loads a program into memory at address 0x0000. The program should
-// not be longer than 0x10000.
+// LoadProgram loads a program into the LEAP16 computer memory at address 0000.
+// The program should not be longer than FFFF.
 func (l16 *LEAP16) LoadProgram(program []uint16) {
 	copy(l16.Memory[:], program)
 }
 
-// Run runs the program loaded into memory from where the instruction pointer
-// is. It will run until it hits a HALT instruction.
+// Run runs the LEAP16 computer until it halts.
 func (l16 *LEAP16) Run() {
 	for !l16.Cycle() {
 	}
 }
 
-// Cycle runs a single cycle of the program. It will return an error if it hits
-// a HALT.
+// Cycle runs a single cycle of the LEAP16 computer. This:
+//  1. Fetches the instruction from memory
+//  2. Increments the instruction pointer
+//  3. Increments the cycle counter
+//  4. Decodes and executes the instruction
+//  5. Returns true if the executed instruction was HALT, false otherwise
 func (l16 *LEAP16) Cycle() (halt bool) {
 	// Fetch the instruction
 	instruction := l16.Memory[l16.Registers[0xF]]
@@ -142,7 +145,7 @@ func (l16 *LEAP16) Cycle() (halt bool) {
 	return
 }
 
-// Reset resets the LEAP16 to its initial state (all zero).
+// Reset resets the LEAP16 computer to its initial state (all zero).
 func (l16 *LEAP16) Reset() {
 	l16.Memory = [0x10000]uint16{}
 	l16.Registers = [0x10]uint16{}

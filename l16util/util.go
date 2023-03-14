@@ -7,8 +7,8 @@ import (
 	"github.com/patrickmcnamara/leap16"
 )
 
-// Dump dumps the contents of the LEAP16 registers, memory, and stack (optional)
-// to os.Stdout.
+// Dump dumps the contents of the LEAP16 computer registers, memory, and stack
+// (optional) to os.Stdout.
 func Dump(l16 *leap16.LEAP16, me uint16, ds bool) {
 	// Registers
 	for i := 0; i < 16; i++ {
