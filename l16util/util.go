@@ -7,9 +7,8 @@ import (
 	"github.com/patrickmcnamara/leap16"
 )
 
-// Dump dumps the contents of the LEAP16 computer registers, memory, and stack
-// (optional) to os.Stdout.
-func Dump(l16 *leap16.LEAP16, me uint16, ds bool) {
+// Dump dumps the LEAP16 computer registers, memory, and cycle count to stdout.
+func Dump(l16 *leap16.LEAP16, me uint16) {
 	// Registers
 	for i := 0; i < 16; i++ {
 		fmt.Printf("r%01X:     %04X\n", i, l16.Registers[i])
@@ -18,12 +17,6 @@ func Dump(l16 *leap16.LEAP16, me uint16, ds bool) {
 	for i := 0; i < int(me); i++ {
 		fmt.Printf("m%04X:  %04X\n", i, l16.Memory[i])
 	}
-	// Stack (optionally)
-	if ds && l16.Registers[0xE] != 0 {
-		for i := int(l16.Registers[0xE]); i < 0x10000; i++ {
-			fmt.Printf("sm%04X: %04X\n", i, l16.Memory[i])
-		}
-	}
 	// Cycle count
-	fmt.Printf("c:      %04X\n", l16.C)
+	fmt.Printf("c:      %08X\n", l16.C)
 }

@@ -1,0 +1,18 @@
+package leap16
+
+const (
+	OPCODE_R    = 0x0
+	OPCODE_W    = 0xE
+	OPCODE_ADD  = 0x2
+	OPCODE_SUB  = 0x3
+	OPCODE_AND  = 0x4
+	OPCODE_OR   = 0x5
+	OPCODE_SL   = 0x6
+	OPCODE_SR   = 0x7
+	OPCODE_LEAP = 0x8
+	OPCODE_LL   = 0xA
+	OPCODE_RL   = 0xB
+	OPCODE_LEQ  = 0xC
+	OPCODE_LLT  = 0xD
+	OPCODE_HALT = 0xF
+)
