@@ -10,12 +10,12 @@ import (
 // Dump dumps the LEAP16 computer registers, memory, and cycle count to stdout.
 func Dump(l16 *leap16.LEAP16, me uint16) {
 	// Registers
-	for i := 0; i < 16; i++ {
+	for i := 0; i < 0x10; i++ {
 		fmt.Printf("r%01X:     %04X\n", i, l16.Registers[i])
 	}
-	// Memory
+	// I/O
 	for i := 0; i < int(me); i++ {
-		fmt.Printf("m%04X:  %04X\n", i, l16.Memory[i])
+		fmt.Printf("io%04X:  %04X\n", i, l16.Memory[i])
 	}
 	// Cycle count
 	fmt.Printf("c:      %08X\n", l16.C)

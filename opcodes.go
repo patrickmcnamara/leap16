@@ -11,7 +11,7 @@ const (
 	OPCODE_SR   = 0x7
 	OPCODE_LEAP = 0x8
 	OPCODE_LL   = 0xA
-	OPCODE_RL   = 0xB
+	OPCODE_RLL  = 0xB
 	OPCODE_LEQ  = 0xC
 	OPCODE_LLT  = 0xD
 	OPCODE_HALT = 0xF

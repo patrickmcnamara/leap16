@@ -17,12 +17,21 @@ The LEAP16 instruction set is as follows:
 	OR    rx  ry  rd    // Or rx with ry, store to rd
 	SL    rx  sa  rd    // Shift-left rx by sa, store to rd
 	SR    rx  sa  rd    // Shift-right rx by sa, store to rd
-	LEAP  ra      or    // Leap to rx+or
-	LL    ra      or    // Leap to rx+or and link
-	RL                  // Return from leap and link
-	LEQ   rx  ry  oi    // Leap to rF+oi if rx == ry
+	LEAP  ra      or    // Leap to ra+or
+	LL    ra      or    // Leap to ra+or and link
+	RLL                 // Return from leap and link
+	LEQ   rx  ry  oi    // Leap to rF+oi if rx = ry
 	LLT   rx  ry  oi    // Leap to rF+oi if rx < ry
 	HALT                // Halt execution
+
+	ra = register address (register index)
+	rd = register destination
+	rs = register source
+	rx = register X
+	ry = register Y
+	or = offset from register (4b/8b immediate)
+	oi = offset from instruction pointer (4b immediate)
+	sa = shift amount (4b immediate)
 
 The opcodes for instructions are the index of that instruction, with exceptions
 that W is E, and 1 and 9 are skipped. R is 0 and HALT is F, etc.

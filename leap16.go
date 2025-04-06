@@ -1,10 +1,9 @@
 // Package leap16 implements the LEAP16 computer architecture.
 //
 // LEAP16 is a 16-bit computer architecture. It has 16-bit instructions, 16-bit
-// registers, and 16-bit I/O addressed using 16-bit addresses. In this version,
-// all I/O is memory.
+// registers, and 16-bit I/O addressed using 16-bit addresses.
 //
-// Memory is from m0000 to mFFFF. m0000 and above is used as a stack. Registers
+// I/O is from io0000 to ioFFFF. io0000 and above is used as a stack. Registers
 // are from r0 to rF. rE is the stack pointer, rF is the instruction pointer. r0
 // is 0 by convention.
 //
@@ -18,19 +17,29 @@
 //	OR    rx  ry  rd    // Or rx with ry, store to rd
 //	SL    rx  sa  rd    // Shift-left rx by sa, store to rd
 //	SR    rx  sa  rd    // Shift-right rx by sa, store to rd
-//	LEAP  ra      or    // Leap to rx+or
-//	LL    ra      or    // Leap to rx+or and link
-//	RL                  // Return from leap and link
-//	LEQ   rx  ry  oi    // Leap to rF+oi if rx == ry
+//	LEAP  ra      or    // Leap to ra+or
+//	LL    ra      or    // Leap to ra+or and link
+//	RLL                 // Return from leap and link
+//	LEQ   rx  ry  oi    // Leap to rF+oi if rx = ry
 //	LLT   rx  ry  oi    // Leap to rF+oi if rx < ry
 //	HALT                // Halt execution
+//
+//	ra = register address (register index)
+//	rd = register destination
+//	rs = register source
+//	rx = register X
+//	ry = register Y
+//	or = offset from register (4b/8b immediate)
+//	oi = offset from instruction pointer (4b immediate)
+//	sa = shift amount (4b immediate)
 //
 // The opcodes for instructions are the index of that instruction, with
 // exceptions that W is E, and 1 and 9 are skipped. R is 0 and HALT is F, etc.
 package leap16
 
 // LEAP16 is an instance of a LEAP16 computer. It has 16 registers,  64 Ki of
-// memory, and a cycle counter. It can run programs loaded into memory.
+// memory (io0000 -> ioFFFF), and a cycle counter. It can run programs loaded
+// into memory.
 type LEAP16 struct {
 	Registers [0x10]uint16
 	Memory    [0x10000]uint16
@@ -97,7 +106,7 @@ func (l16 *LEAP16) Cycle() (halt bool) {
 		l16.Memory[l16.Registers[0xE]] = l16.Registers[0xF]
 		l16.Registers[0xE]++
 		l16.Registers[0xF] = l16.Registers[f3] + uint16(int8(e7))
-	case OPCODE_RL:
+	case OPCODE_RLL:
 		l16.Registers[0xE]--
 		l16.Registers[0xF] = l16.Memory[l16.Registers[0xE]]
 	case OPCODE_LEQ:
@@ -118,7 +127,7 @@ func (l16 *LEAP16) Cycle() (halt bool) {
 
 // Reset resets the LEAP16 computer to the initial state (all zero).
 func (l16 *LEAP16) Reset() {
-	l16.Memory = [0x10000]uint16{}
 	l16.Registers = [0x10]uint16{}
+	l16.Memory = [0x10000]uint16{}
 	l16.C = 0
 }
